@@ -134,11 +134,7 @@ func (s *ScaleProto) ConnectWithContext(ctx context.Context) error {
 	}
 
 	// Set timeout to prevent endless lock.
-	err = socket.SetOption(mangos.OptionRecvDeadline, s.pollTimeout)
-	if nil != err {
-		return err
-	}
-	err = socket.SetOption(mangos.OptionSendDeadline, s.repTimeout)
+	err = socket.SetOption(mangos.OptionRecvDeadline, s.repTimeout)
 	if nil != err {
 		return err
 	}
