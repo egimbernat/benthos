@@ -3,6 +3,11 @@ package reader
 import (
 	"context"
 	"fmt"
+	"go.nanomsg.org/mangos/v3"
+	"go.nanomsg.org/mangos/v3/protocol/pull"
+	"go.nanomsg.org/mangos/v3/protocol/sub"
+	_ "go.nanomsg.org/mangos/v3/transport/ipc"
+	_ "go.nanomsg.org/mangos/v3/transport/tcp"
 	"strings"
 	"sync"
 	"time"
@@ -11,11 +16,6 @@ import (
 	"github.com/Jeffail/benthos/v3/lib/message"
 	"github.com/Jeffail/benthos/v3/lib/metrics"
 	"github.com/Jeffail/benthos/v3/lib/types"
-	"nanomsg.org/go-mangos"
-	"nanomsg.org/go-mangos/protocol/pull"
-	"nanomsg.org/go-mangos/protocol/sub"
-	"nanomsg.org/go-mangos/transport/ipc"
-	"nanomsg.org/go-mangos/transport/tcp"
 )
 
 //------------------------------------------------------------------------------
@@ -142,9 +142,6 @@ func (s *ScaleProto) ConnectWithContext(ctx context.Context) error {
 	if nil != err {
 		return err
 	}
-
-	socket.AddTransport(ipc.NewTransport())
-	socket.AddTransport(tcp.NewTransport())
 
 	if s.conf.Bind {
 		for _, addr := range s.urls {
